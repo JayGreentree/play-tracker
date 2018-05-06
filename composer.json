@@ -1,0 +1,43 @@
+{
+    "name": "mijingo/play-tracker",
+    "description": "Tracks plays of videos.",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "play tracker"
+    ],
+    "support": {
+        "docs": "https://github.com/mijingo/play-tracker/blob/master/README.md",
+        "issues": "https://github.com/mijingo/play-tracker/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ryan Irelan",
+            "homepage": "https://mijingo.com"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "mijingo\\playtracker\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Play Tracker",
+        "handle": "play-tracker",
+        "hasCpSettings": false,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/mijingo/play-tracker/master/CHANGELOG.md",
+        "components": {
+            "playTrackerService": "mijingo\\playtracker\\services\\PlayTrackerService"
+        },
+        "class": "mijingo\\playtracker\\PlayTracker"
+    }
+}
