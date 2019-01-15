@@ -36,7 +36,7 @@ use yii\base\Event;
  *
  * @author    Ryan Irelan
  * @package   PlayTracker
- * @since     1.0.0
+ * @since     1.2.0
  *
  * @property  PlayTrackerServiceService $playTrackerService
  */
@@ -61,7 +61,7 @@ class PlayTracker extends Plugin
      *
      * @var string
      */
-    public $schemaVersion = '1.0.0';
+    public $schemaVersion = '1.2.0';
 
     // Public Methods
     // =========================================================================
