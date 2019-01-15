@@ -13,6 +13,7 @@ namespace mijingo\playtracker\variables;
 use mijingo\playtracker\PlayTracker;
 
 use Craft;
+use mijingo\playtracker\twigextensions\PlayTrackerTwigExtension;
 
 /**
  * Play Tracker Variable
@@ -45,14 +46,26 @@ class PlayTrackerVariable
      * @param null $optional
      * @return string
      */
-    public function hasPlayed($playdata)
+    public function hasCompleted($playdata)
     {
-        $result = PlayTracker::$plugin->playTrackerService->hasPlayed($playdata);
+        $result = PlayTracker::$plugin->playTrackerService->hasCompleted($playdata);
         return $result;
     }
 
     public function getPlayedVideos($entryId) {
         $result = PlayTracker::$plugin->playTrackerService->getPlayedVideos($entryId);
+        return $result;
+    }
+
+
+    /**
+     * Gets Current Timestamp
+     *
+     * @param $platdata
+     * @return float
+     */
+    public function currentTimestamp($playdata) {
+        $result = PlayTracker::$plugin->playTrackerService->getCurrentTimestamp($playdata);
         return $result;
     }
 }

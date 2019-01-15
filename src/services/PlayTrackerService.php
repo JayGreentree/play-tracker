@@ -20,37 +20,27 @@ use craft\db\Query;
 /**
  * PlayTrackerService Service
  *
- * All of your plugin’s business logic should go in services, including saving data,
- * retrieving data, etc. They provide APIs that your controllers, template variables,
- * and other plugins can interact with.
- *
- * https://craftcms.com/docs/plugins/services
- *
  * @author    Ryan Irelan
  * @package   PlayTracker
  * @since     1.0.0
  */
+
 class PlayTrackerService extends Component
 {
     // Public Methods
     // =========================================================================
 
+
     /**
-     * This function can literally be anything you want, and you can have as many service
-     * functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     PlayTracker::$plugin->playTrackerService->exampleService()
-     *
-     * @return mixed
+     * @param $playData
+     * @return bool
      */
-    public function hasPlayed($playData)
+    public function hasStarted($playData) // checks if this video has been started but not completed status=0
     {
         $count = (new Query())
             ->select(['entryId', 'rowId', 'userId', 'siteId', 'status'])
             ->from(['{{%playtracker_playtrackerrecord}}'])
-            ->where($playData)
+            ->where(['entryId' => $playData['entryId'], 'status' => 0, 'userId' => craft::$app->user->getId(), 'rowId' => $playData['rowId']])
             ->count();
 
         if ($count > 0) {
@@ -60,6 +50,29 @@ class PlayTrackerService extends Component
         return false;
     }
 
+    /**
+     * @param $playData
+     * @return bool
+     */
+    public function hasCompleted($playData) // checks if the video is completed - the player `ended` event fired
+    {
+        $count = (new Query())
+            ->select(['entryId', 'rowId', 'userId', 'siteId', 'status'])
+            ->from(['{{%playtracker_playtrackerrecord}}'])
+            ->where(['entryId' => $playData['entryId'], 'status' => 1, 'userId' => craft::$app->user->getId(), 'rowId' => $playData['rowId']])
+            ->count();
+
+        if ($count > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $entryId
+     * @return array
+     */
     public function getPlayedVideos($entryId)
     {
         $videosInCourse = (new Query())
@@ -71,6 +84,11 @@ class PlayTrackerService extends Component
         return $videosInCourse;
     }
 
+
+    /**
+     * @param $playData
+     * @return bool
+     */
     public function savePlay($playData)
     {
         $result = \Craft::$app->db->createCommand()
@@ -81,4 +99,38 @@ class PlayTrackerService extends Component
 
     }
 
+
+    /**
+     * @param $playData
+     * @return bool
+     */
+    public function updatePlay($playData)
+    {
+        $result = \Craft::$app->db->createCommand()
+            ->update('{{%playtracker_playtrackerrecord}}', $playData, array('entryId' => $playData['entryId'], 'rowId' => $playData['rowId'], 'userId' => craft::$app->user->getId()))
+            ->execute();
+        return true;
+
+    }
+
+
+    /**
+     * @param $platData
+     * @return string
+     */
+    public function getCurrentTimestamp($playData) {
+        $timestamp = (new Query())
+            ->select(['currentTimestamp'])
+            ->from(['{{%playtracker_playtrackerrecord}}'])
+            ->where(['entryId' => $playData['entryId'], 'status' => 0, 'userId' => craft::$app->user->getId(), 'rowId' => $playData['rowId']])
+            ->all();
+
+        if($timestamp)
+        {
+            return $timestamp[0]['currentTimestamp'];
+        }
+
+        return false;
+
+    }
 }

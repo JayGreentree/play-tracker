@@ -14,6 +14,7 @@ use mijingo\playtracker\PlayTracker;
 
 use Craft;
 use craft\web\Controller;
+use mijingo\playtracker\twigextensions\PlayTrackerTwigExtension;
 
 /**
  * Default Controller
@@ -59,6 +60,7 @@ class DefaultController extends Controller
      */
     public function actionSave()
     {
+
         // check that it's a logged in user session
 
         // get current user data
@@ -72,15 +74,20 @@ class DefaultController extends Controller
             'rowId' => $params['rowId'],
             'status' => $params['status'],
             'siteId' => $params['siteId'],
-            'currentTimestamp' => ''
+            'currentTimestamp' => $params['currentTimestamp']
         );
 
-        $already_saved = PlayTracker::$plugin->playTrackerService->hasPlayed($save_data);
+        $hasStarted = PlayTracker::$plugin->playTrackerService->hasStarted($save_data);
+        $hasCompleted = PlayTracker::$plugin->playTrackerService->hasCompleted($save_data);
 
-        if (! $already_saved) {
+        if ($hasStarted && !$hasCompleted) {
+            return PlayTracker::$plugin->playTrackerService->updatePlay($save_data);
+        }
+        elseif (!$hasStarted && !$hasCompleted) {
             return PlayTracker::$plugin->playTrackerService->savePlay($save_data);
         }
-
-        return false;
+        else {
+            return false;
+        }
     }
 }
