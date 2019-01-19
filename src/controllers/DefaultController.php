@@ -74,7 +74,8 @@ class DefaultController extends Controller
             'rowId' => $params['rowId'],
             'status' => $params['status'],
             'siteId' => $params['siteId'],
-            'currentTimestamp' => $params['currentTimestamp']
+            'currentTimestamp' => $params['currentTimestamp'],
+            'courseUrlTitle' => $params['courseUrlTitle']
         );
 
         $hasStarted = PlayTracker::$plugin->playTrackerService->hasStarted($save_data);

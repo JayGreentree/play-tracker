@@ -86,6 +86,39 @@ class PlayTrackerService extends Component
 
 
     /**
+     * @param $userId
+     * @return array
+     */
+    public function getInProgressVideos($userId) {
+
+        $inProgressVideos = (new Query())
+            ->select(['entryId'])
+            ->from (['{{%playtracker_playtrackerrecord}}'])
+            ->where(['status' => 0, 'userId' => $userId])
+            ->all();
+
+        return $inProgressVideos;
+
+    }
+
+    /**
+     * @param $userId
+     * @return array
+     */
+    public function getInProgressCourseVideos($userId) {
+
+        $inProgressVideos = (new Query())
+            ->select(['rowId'])
+            ->from (['{{%playtracker_playtrackerrecord}}'])
+            ->where(['status' => 0, 'userId' => $userId])
+            ->andWhere('rowId > 0')
+            ->all();
+
+        return $inProgressVideos;
+
+    }
+
+    /**
      * @param $playData
      * @return bool
      */
