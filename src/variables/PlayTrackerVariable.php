@@ -57,6 +57,20 @@ class PlayTrackerVariable
         return $result;
     }
 
+    public function getInProgressCourseVideosByEntryId($entryId, $userId) {
+        $result = PlayTracker::$plugin->playTrackerService->getInProgressCourseVideosByEntryId($entryId, $userId);
+        return $result;
+    }
+
+    public function getInProgressCourseVideos($userId) {
+        $result = PlayTracker::$plugin->playTrackerService->getInProgressCourseVideos($userId);
+        return $result;
+    }
+
+    public function getInProgressVideos($userId) {
+        $result = PlayTracker::$plugin->playTrackerService->getInProgressVideos($userId);
+        return $result;
+    }
 
     /**
      * Gets Current Timestamp
