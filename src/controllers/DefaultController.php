@@ -65,7 +65,6 @@ class DefaultController extends Controller
 
         // get current user data
         $currentUserId = craft::$app->user->getId();
-
         // get data
         $params =  craft::$app->request->getQueryParams();
         $save_data = array(
@@ -75,7 +74,7 @@ class DefaultController extends Controller
             'status' => $params['status'],
             'siteId' => $params['siteId'],
             'currentTimestamp' => $params['currentTimestamp'],
-            'courseUrlTitle' => $params['courseUrlTitle']
+            'courseUrlTitle' => isset($params['courseUrlTitle'])
         );
 
         $hasStarted = PlayTracker::$plugin->playTrackerService->hasStarted($save_data);

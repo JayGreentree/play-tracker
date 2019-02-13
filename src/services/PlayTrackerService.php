@@ -108,14 +108,31 @@ class PlayTrackerService extends Component
     public function getInProgressCourseVideos($userId) {
 
         $inProgressVideos = (new Query())
-            ->select(['rowId'])
+            ->select(['{{%playtracker_playtrackerrecord}}.rowId, {{%playtracker_playtrackerrecord}}.courseUrlTitle, {{%matrixcontent_coursevideos}}.field_video_videoTitle, {{%matrixcontent_coursevideos}}.elementId, {{%playtracker_playtrackerrecord}}.userId' ])
+            ->distinct()
             ->from (['{{%playtracker_playtrackerrecord}}'])
-            ->where(['status' => 0, 'userId' => $userId])
-            ->andWhere('rowId > 0')
+            ->join('LEFT JOIN', '{{%matrixcontent_coursevideos}}', '{{%playtracker_playtrackerrecord}}.rowId = {{%matrixcontent_coursevideos}}.elementId')
+            ->where(['{{%playtracker_playtrackerrecord}}.status' => 0])
+            ->andWhere('{{%playtracker_playtrackerrecord}}.rowId > 0')
+            ->andWhere(['{{%playtracker_playtrackerrecord}}.userId' => $userId])
             ->all();
-
         return $inProgressVideos;
 
+    }
+
+
+    public function getInProgressCourseVideosByEntryId($entryId, $userId) {
+        $inProgressVideos = (new Query())
+            ->select(['{{%playtracker_playtrackerrecord}}.rowId, {{%playtracker_playtrackerrecord}}.courseUrlTitle, {{%matrixcontent_coursevideos}}.field_video_videoTitle, {{%matrixcontent_coursevideos}}.elementId, {{%playtracker_playtrackerrecord}}.userId, {{%playtracker_playtrackerrecord}}.entryId' ])
+            ->distinct()
+            ->from (['{{%playtracker_playtrackerrecord}}'])
+            ->join('LEFT JOIN', '{{%matrixcontent_coursevideos}}', '{{%playtracker_playtrackerrecord}}.rowId = {{%matrixcontent_coursevideos}}.elementId')
+            ->where(['{{%playtracker_playtrackerrecord}}.status' => 0])
+            ->andWhere('{{%playtracker_playtrackerrecord}}.rowId > 0')
+            ->andWhere(['{{%playtracker_playtrackerrecord}}.userId' => $userId])
+            ->andWhere(['{{%playtracker_playtrackerrecord}}.entryId' => $entryId])
+            ->all();
+        return $inProgressVideos;
     }
 
     /**
