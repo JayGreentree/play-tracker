@@ -141,11 +141,17 @@ class PlayTrackerService extends Component
      */
     public function savePlay($playData)
     {
-        $result = \Craft::$app->db->createCommand()
+        // only save play data if the video isn't yet complete in order to avoid a out of order XHR request that resets the played status to 0 after setting it to 1
+        if($playData['status'] != 1)
+        {
+            $result = \Craft::$app->db->createCommand()
             ->insert('{{%playtracker_playtrackerrecord}}', $playData)
             ->execute();
 
         return true;
+        }
+
+        return false;
 
     }
 
