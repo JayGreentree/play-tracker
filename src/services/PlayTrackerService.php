@@ -15,6 +15,7 @@ use mijingo\playtracker\PlayTracker;
 use Craft;
 use craft\base\Component;
 use craft\db\Query;
+use craft\elements\Entry;
 
 
 /**
@@ -133,6 +134,28 @@ class PlayTrackerService extends Component
             ->andWhere(['{{%playtracker_playtrackerrecord}}.entryId' => $entryId])
             ->all();
         return $inProgressVideos;
+    }
+
+    public function getInProgressCourses($userId, $limit)
+    {
+        $inProgressCourses = (new Query())
+            ->select(['{{%playtracker_playtrackerrecord}}.entryId'])
+            ->distinct()
+            ->from(['{{%playtracker_playtrackerrecord}}'])
+            ->where(['{{%playtracker_playtrackerrecord}}.userId' => $userId])
+            ->andWhere('{{%playtracker_playtrackerrecord}}.rowId != 0')
+            ->limit($limit)
+            ->all();
+
+        $entryIds = [];
+
+        foreach ($inProgressCourses as $course) {
+            $entryIds[] = $course['entryId'];
+        }
+
+        $entries = implode(", ", $entryIds);
+
+        return Entry::find()->section('courses')->id($entryIds)->all();
     }
 
     /**
