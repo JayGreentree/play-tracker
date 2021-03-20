@@ -72,6 +72,10 @@ class PlayTrackerVariable
         return $result;
     }
 
+    public function getInProgressCourses($userId, $limit) {
+        return PlayTracker::$plugin->playTrackerService->getInProgressCourses($userId, $limit);
+    }
+
     /**
      * Gets Current Timestamp
      *
