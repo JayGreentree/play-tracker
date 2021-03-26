@@ -14,6 +14,7 @@ use mijingo\playtracker\PlayTracker;
 
 use Craft;
 use mijingo\playtracker\twigextensions\PlayTrackerTwigExtension;
+use nystudio107\seomatic\models\jsonld\Play;
 
 /**
  * Play Tracker Variable
@@ -74,6 +75,16 @@ class PlayTrackerVariable
 
     public function getInProgressCourses($userId, $limit) {
         return PlayTracker::$plugin->playTrackerService->getInProgressCourses($userId, $limit);
+    }
+
+
+    /**
+     * @param $courseId
+     * @param $userId
+     */
+    public function courseCompletionStatus($courseId, $userId)
+    {
+        return PlayTracker::$plugin->playTrackerService->getCourseCompletionStatus($courseId, $userId);
     }
 
     /**

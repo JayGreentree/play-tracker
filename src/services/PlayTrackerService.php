@@ -10,6 +10,7 @@
 
 namespace mijingo\playtracker\services;
 
+use craft\elements\db\EntryQuery;
 use mijingo\playtracker\PlayTracker;
 
 use Craft;
@@ -85,6 +86,24 @@ class PlayTrackerService extends Component
         return $videosInCourse;
     }
 
+    /**
+     * @param $courseId
+     * @return float
+     */
+    public function getCourseCompletionStatus($courseId) {
+
+        $playedVideoCount = count($this->getPlayedVideos($courseId));
+        $totalCourseVideos = $this->getTotalCourseVideos($courseId);
+        return round(($playedVideoCount / $totalCourseVideos) * 100);
+    }
+
+
+    public function getTotalCourseVideos($courseId): int
+    {
+        $entry = Entry::find()->section('courses')->id($courseId)->one();
+        return count($entry->courseVideos->all());
+
+    }
 
     /**
      * @param $userId
