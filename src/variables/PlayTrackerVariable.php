@@ -127,6 +127,17 @@ class PlayTrackerVariable
         return PlayTracker::$plugin->playTrackerService->getCourseCompletionStatus($courseId, $userId);
     }
 
+
+    /**
+     * @param $userId
+     * @return int
+     */
+    public function totalPlayedVideos($userId): int
+    {
+        return PlayTracker::$plugin->playTrackerService->getTotalPlayedVideos($userId);
+    }
+
+
     /**
      * Gets Current Timestamp
      *

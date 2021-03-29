@@ -86,6 +86,14 @@ class PlayTrackerService extends Component
         return $videosInCourse;
     }
 
+    public function getTotalPlayedVideos($userId)
+    {
+        return (new Query())
+            ->from (['{{%playtracker_playtrackerrecord}}'])
+            ->where(['status' => 1, 'userId' => $userId])
+            ->count();
+    }
+
     /**
      * @param $courseId
      * @return float
