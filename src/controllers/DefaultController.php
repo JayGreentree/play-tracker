@@ -80,14 +80,14 @@ class DefaultController extends Controller
             'currentTimestamp' => $params['currentTimestamp'],
             'courseUrlTitle' => $courseSlug
         );
-        
-        $hasStarted = PlayTracker::$plugin->playTrackerService->hasStarted($save_data);
-        $hasCompleted = PlayTracker::$plugin->playTrackerService->hasCompleted($save_data);
 
-        if ($hasStarted && !$hasCompleted) {
+        $started = PlayTracker::$plugin->playTrackerService->hasStarted($save_data);
+        $completed = PlayTracker::$plugin->playTrackerService->hasCompleted($save_data);
+
+        if ($started && !$completed) {
             return PlayTracker::$plugin->playTrackerService->updatePlay($save_data);
         }
-        elseif (!$hasStarted && !$hasCompleted) {
+        elseif (!$started && !$completed) {
             return PlayTracker::$plugin->playTrackerService->savePlay($save_data);
         }
         else {
