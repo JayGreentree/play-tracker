@@ -113,6 +113,18 @@ class PlayTrackerService extends Component
 
     }
 
+    public function getTotalCourseVideoRunningTime($courseId): int
+    {
+        $entry = Entry::find()->section('courses')->id($courseId)->one();
+        $totalRunningTime = 0;
+        dd($entry)
+        foreach ($entry->courseVideos as $courseVideo) {
+            dd($courseVideo);
+//            $totalRunningTime = $courseVideo->video->videoDuration + $totalRunningTime;
+        }
+    }
+
+
     public function totalCourseVideosByCategory($categoryId): int
     {
         $courses = Entry::find()->section('courses')->relatedTo($categoryId);
@@ -209,7 +221,14 @@ class PlayTrackerService extends Component
             ->insert('{{%playtracker_playtrackerrecord}}', $playData)
             ->execute();
 
-        return true;
+            if ($result)
+            {
+                // calc total playtime for this course
+                $courseVideos = $this->getTotalCourseVideos($playData['entryId']);
+            }
+
+
+        return false;
         }
 
         return false;
