@@ -10,6 +10,7 @@
 
 namespace mijingo\playtracker\services;
 
+use craft\elements\db\EntryQuery;
 use mijingo\playtracker\PlayTracker;
 
 use Craft;
@@ -85,6 +86,43 @@ class PlayTrackerService extends Component
         return $videosInCourse;
     }
 
+    public function getTotalPlayedVideos($userId)
+    {
+        return (new Query())
+            ->from (['{{%playtracker_playtrackerrecord}}'])
+            ->where(['status' => 1, 'userId' => $userId])
+            ->count();
+    }
+
+    /**
+     * @param $courseId
+     * @return float
+     */
+    public function getCourseCompletionStatus($courseId) {
+
+        $playedVideoCount = count($this->getPlayedVideos($courseId));
+        $totalCourseVideos = $this->getTotalCourseVideos($courseId);
+        return round(($playedVideoCount / $totalCourseVideos) * 100);
+    }
+
+
+    public function getTotalCourseVideos($courseId): int
+    {
+        $entry = Entry::find()->section('courses')->id($courseId)->one();
+        return count($entry->courseVideos->all());
+
+    }
+
+    public function totalCourseVideosByCategory($categoryId): int
+    {
+        $courses = Entry::find()->section('courses')->relatedTo($categoryId);
+        $totalCourseVideos = 0;
+        foreach ($courses as $course) {
+            $videosCount = count($course->courseVideos->all());
+            $totalCourseVideos = $totalCourseVideos + $videosCount;
+        }
+        return $totalCourseVideos;
+    }
 
     /**
      * @param $userId

@@ -14,6 +14,7 @@ use mijingo\playtracker\PlayTracker;
 
 use Craft;
 use mijingo\playtracker\twigextensions\PlayTrackerTwigExtension;
+use nystudio107\seomatic\models\jsonld\Play;
 
 /**
  * Play Tracker Variable
@@ -52,34 +53,95 @@ class PlayTrackerVariable
         return $result;
     }
 
+    /**
+     * @param $entryId
+     * @return array
+     */
     public function getPlayedVideos($entryId) {
         $result = PlayTracker::$plugin->playTrackerService->getPlayedVideos($entryId);
         return $result;
     }
 
+    /**
+     * @param $entryId
+     * @param $userId
+     * @return array
+     */
     public function getInProgressCourseVideosByEntryId($entryId, $userId) {
         $result = PlayTracker::$plugin->playTrackerService->getInProgressCourseVideosByEntryId($entryId, $userId);
         return $result;
     }
 
+    /**
+     * @param $userId
+     * @return array
+     */
     public function getInProgressCourseVideos($userId) {
         $result = PlayTracker::$plugin->playTrackerService->getInProgressCourseVideos($userId);
         return $result;
     }
 
+    /**
+     * @param $userId
+     * @return array
+     */
     public function getInProgressVideos($userId) {
         $result = PlayTracker::$plugin->playTrackerService->getInProgressVideos($userId);
         return $result;
     }
 
+    /**
+     * @param $userId
+     * @param $limit
+     * @return array|\craft\base\ElementInterface[]|\craft\elements\Entry[]|null
+     */
     public function getInProgressCourses($userId, $limit) {
         return PlayTracker::$plugin->playTrackerService->getInProgressCourses($userId, $limit);
     }
 
+
+    /**
+     * @param $entryId
+     * @return int
+     */
+    public function getTotalCourseVideos($entryId)
+    {
+        return PlayTracker::$plugin->playTrackerService->getTotalCourseVideos($entryId);
+    }
+
+    /**
+     * @param $categoryId
+     * @return int
+     */
+    public function totalCourseVideosByCategory($categoryId)
+    {
+        return PlayTracker::$plugin->playTrackerService->totalCourseVideosByCategory($categoryId);
+    }
+
+    /**
+     * @param $courseId
+     * @param $userId
+     */
+    public function courseCompletionStatus($courseId, $userId)
+    {
+        return PlayTracker::$plugin->playTrackerService->getCourseCompletionStatus($courseId, $userId);
+    }
+
+
+    /**
+     * @param $userId
+     * @return int
+     */
+    public function totalPlayedVideos($userId): int
+    {
+        return PlayTracker::$plugin->playTrackerService->getTotalPlayedVideos($userId);
+    }
+
+
     /**
      * Gets Current Timestamp
      *
-     * @param $platdata
+     * @param $playdata
      * @return float
      */
     public function currentTimestamp($playdata) {
