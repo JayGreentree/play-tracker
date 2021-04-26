@@ -115,7 +115,7 @@ class PlayTrackerService extends Component
 
     public function totalCourseVideosByCategory($categoryId): int
     {
-        $courses = Entry::find()->section('courses')->relatedTo($categoryId);
+        $courses = Entry::find()->section('courses')->relatedTo($categoryId)->all();
         $totalCourseVideos = 0;
         foreach ($courses as $course) {
             $videosCount = count($course->courseVideos->all());
