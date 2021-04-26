@@ -148,4 +148,23 @@ class PlayTrackerVariable
         $result = PlayTracker::$plugin->playTrackerService->getCurrentTimestamp($playdata);
         return $result;
     }
+
+
+    /**
+     * @return int
+     */
+    public function totalCatalogVideos()
+    {
+        return PlayTracker::$plugin->playTrackerService->getTotalCatalogVideos();
+    }
+
+
+    /**
+     * @param $sections
+     * @return false|float
+     */
+    public function totalCourseRunningTime($sections)
+    {
+        return PlayTracker::$plugin->playTrackerService->getTotalCatalogRunningTime($sections);
+    }
 }

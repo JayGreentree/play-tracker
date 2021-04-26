@@ -115,7 +115,7 @@ class PlayTrackerService extends Component
 
     public function totalCourseVideosByCategory($categoryId): int
     {
-        $courses = Entry::find()->section('courses')->relatedTo($categoryId);
+        $courses = Entry::find()->section('courses')->relatedTo($categoryId)->all();
         $totalCourseVideos = 0;
         foreach ($courses as $course) {
             $videosCount = count($course->courseVideos->all());
@@ -249,5 +249,66 @@ class PlayTrackerService extends Component
 
         return false;
 
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getTotalCatalogVideos(): int
+    {
+        // get total all courses entries
+        $courses = Entry::find()->section('courses')->status('live');
+        $totalCourseVideos = 0;
+        foreach ($courses as $course) {
+            $videosCount = count($course->courseVideos->all());
+            $totalCourseVideos = $totalCourseVideos + $videosCount;
+        }
+
+        $totalLessonVideos = Entry::find()->section('lessons')->status('live')->count();
+        $totalLivestreamVideos = Entry::find()->section('livestreams')->status('live')->count();
+
+        return $totalCourseVideos + $totalLessonVideos + $totalLivestreamVideos;
+    }
+
+    public function getTotalCatalogRunningTime(array $sections)
+    {
+
+
+        $totalCatalogRunningTime = 0;
+
+        foreach ($sections as $section) {
+            $entries = Entry::find()->section($section)->status('live');
+            $runningTime = 0;
+
+            if ($section == 'courses') {
+                foreach ($entries as $entry) {
+                    foreach ($entry->courseVideos->all() as $video)
+                    {
+                        $runningTimeSeconds = $this->_calcRunningTimeInSeconds($video->videoDuration);
+                        $runningTime = $runningTime + $runningTimeSeconds;
+                    }
+                }
+            } else {
+                foreach ($entries as $entry) {
+                    $runningTimeSeconds = $this->_calcRunningTimeInSeconds($entry->videoLength);
+                    $runningTime = $runningTime + $runningTimeSeconds;
+                }
+            }
+        }
+
+        return floor($runningTime / 600);
+    }
+
+
+    /**
+     * @param $time
+     * @return mixed
+     */
+    private function _calcRunningTimeInSeconds($time)
+    {
+        sscanf($time, "%d:%d:%d", $hours, $minutes, $seconds);
+        $time_seconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
+        return $time_seconds;
     }
 }
