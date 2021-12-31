@@ -206,10 +206,10 @@ class PlayTrackerService extends Component
         if($playData['status'] != 1)
         {
             $result = \Craft::$app->db->createCommand()
-            ->insert('{{%playtracker_playtrackerrecord}}', $playData)
-            ->execute();
+                ->insert('{{%playtracker_playtrackerrecord}}', $playData)
+                ->execute();
 
-        return true;
+            return true;
         }
 
         return false;
