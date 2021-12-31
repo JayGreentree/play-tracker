@@ -66,7 +66,7 @@ class DefaultController extends Controller
         // get current user data
         $currentUserId = craft::$app->user->getId();
         // get data
-        $params =  craft::$app->request->getQueryParams();
+        $params =  craft::$app->request->getBodyParams();
         $courseSlug = '';
         if (isset($params['courseUrlTitle'])) {
             $courseSlug = $params['courseUrlTitle'];
