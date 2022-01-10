@@ -200,10 +200,10 @@ class PlayTrackerService extends Component
      * @param $playData
      * @return bool
      */
-    public function savePlay($playData)
+    public function savePlay($playData, $manualStatusUpdate)
     {
         // only save play data if the video isn't yet complete in order to avoid a out of order XHR request that resets the played status to 0 after setting it to 1
-        if($playData['status'] != 1)
+        if($playData['status'] != 1 || $manualStatusUpdate == true) // if manualMarkAsPlayed is true then let it through since the record doesn't exist yet
         {
             $result = \Craft::$app->db->createCommand()
                 ->insert('{{%playtracker_playtrackerrecord}}', $playData)
@@ -232,7 +232,7 @@ class PlayTrackerService extends Component
 
 
     /**
-     * @param $platData
+     * @param $playData
      * @return string
      */
     public function getCurrentTimestamp($playData) {
