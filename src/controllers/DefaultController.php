@@ -52,6 +52,16 @@ class DefaultController extends Controller
     // Public Methods
     // =========================================================================
 
+
+    public function actionGetPlayedVideos()
+    {
+        $params = craft::$app->request->getQueryParams();
+
+        $videos = PlayTracker::$plugin->playTrackerService->getPlayedVideos($params['entryId']);
+
+        return json_encode(array_column($videos, 'rowId'));
+    }
+
     /**
      * Handle a request going to our plugin's actionDoSomething URL,
      * e.g.: actions/play-tracker/default/do-something
@@ -84,15 +94,15 @@ class DefaultController extends Controller
         $hasStarted = PlayTracker::$plugin->playTrackerService->hasStarted($save_data);
         $hasCompleted = PlayTracker::$plugin->playTrackerService->hasCompleted($save_data);
 
-        if ($hasCompleted)
+        if ($hasCompleted && $params['manualStatusUpdate'] === true)
         {
-            return false;
+            return PlayTracker::$plugin->playTrackerService->updatePlay($save_data);
         }
         elseif ($hasStarted && !$hasCompleted) {
             return PlayTracker::$plugin->playTrackerService->updatePlay($save_data);
         }
         elseif (!$hasStarted && !$hasCompleted) {
-            return PlayTracker::$plugin->playTrackerService->savePlay($save_data);
+            return  PlayTracker::$plugin->playTrackerService->savePlay($save_data, $params['manualStatusUpdate']);
         }
         else {
             return false;
