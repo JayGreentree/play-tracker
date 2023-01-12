@@ -61,7 +61,7 @@ class PlayTracker extends Plugin
      *
      * @var string
      */
-    public string $schemaVersion = '1.2.1';
+    public string $schemaVersion = '2.0.0';
 
     // Public Methods
     // =========================================================================
