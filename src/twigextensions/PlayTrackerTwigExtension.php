@@ -25,7 +25,7 @@ use Craft;
  * @package   PlayTracker
  * @since     1.0.0
  */
-class PlayTrackerTwigExtension extends \Twig_Extension
+class PlayTrackerTwigExtension extends \Twig\Extension\AbstractExtension
 {
     // Public Methods
     // =========================================================================
@@ -50,7 +50,7 @@ class PlayTrackerTwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('someFilter', [$this, 'someInternalFunction']),
+            new \Twig\TwigFilter('someFilter', [$this, 'someInternalFunction']),
         ];
     }
 
@@ -64,7 +64,7 @@ class PlayTrackerTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('hasPlayed', [$this, 'hasPlayed']),
+            new \Twig\TwigFunction('hasPlayed', [$this, 'hasPlayed']),
         ];
     }
 

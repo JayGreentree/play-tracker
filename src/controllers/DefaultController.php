@@ -68,7 +68,7 @@ class DefaultController extends Controller
      *
      * @return mixed
      */
-    public function actionSave()
+    public function actionSave():mixed
     {
 
         // check that it's a logged in user session
