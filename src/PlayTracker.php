@@ -1,6 +1,6 @@
 <?php
 /**
- * Play Tracker plugin for Craft CMS 3.x
+ * Play Tracker plugin for Craft CMS 4.x
  *
  * Tracks plays of videos.
  *
@@ -61,7 +61,7 @@ class PlayTracker extends Plugin
      *
      * @var string
      */
-    public string $schemaVersion = '1.2.1';
+    public string $schemaVersion = '2.0.0';
 
     // Public Methods
     // =========================================================================

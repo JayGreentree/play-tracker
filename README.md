@@ -1,4 +1,4 @@
-# Play Tracker plugin for Craft CMS 3.x
+# Play Tracker plugin for Craft CMS 4.x
 
 Tracks plays of videos.
 
