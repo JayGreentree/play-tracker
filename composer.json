@@ -2,7 +2,7 @@
     "name": "mijingo/play-tracker",
     "description": "Tracks plays of videos.",
     "type": "craft-plugin",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "keywords": [
         "craft",
         "cms",
@@ -18,7 +18,7 @@
     "authors": [
         {
             "name": "Ryan Irelan",
-            "homepage": "https://mijingo.com"
+            "homepage": "https://craftquest.io"
         }
     ],
     "require": {
