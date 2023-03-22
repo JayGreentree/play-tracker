@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.1 - 2023-03-21
+- fixed typing issue in controller
+
+## 2.0.0 - 2023-03-15
+### Changed
+- updated to work with Craft CMS
+
 ## 1.2.6 - 2021-01-10
 ### Changed
 - updated to support Vue-ized version of video player and listing
