@@ -1,8 +1,8 @@
 {
-    "name": "mijingo/play-tracker",
+    "name": "JayGreentree/play-tracker",
     "description": "Tracks plays of videos.",
     "type": "craft-plugin",
-    "version": "1.2.6",
+    "version": "5.2.6",
     "keywords": [
         "craft",
         "cms",
@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^3.0.0-RC1"
+        "craftcms/cms": "^5.0.0-RC1"
     },
     "autoload": {
         "psr-4": {
